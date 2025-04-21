@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Audio Emotion Analyzer</string>
+
+    <!-- Экран приветствия -->
+    <string name="login">Log in</string>
+    <string name="first_time_here">First time here?</string>
+    <string name="sign_in">Sign in</string>
+
+    <!-- Экран входа -->
+    <string name="login_title">Log in</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="chars_hint">Use latin alphabet and numbers</string>
+
+    <!-- Экран регистрации -->
+    <string name="create_account">Create account</string>
+    <string name="repeat_password">Repeat password</string>
+
+    <!-- Экран загрузки аудио -->
+    <string name="drag_audio_here">Drag your audio here</string>
+    <string name="start">Start</string>
+    <string name="audio_selected">Audio selected</string>
+    <string name="select_audio_first">Please select an audio file first</string>
+    <string name="storage_permission_rationale">Storage permission is required to select audio files</string>
+
+    <!-- Экран прогресса -->
+    <string name="in_progress">In progress…</string>
+
+    <!-- Экран результатов -->
+    <string name="audio_contains">This audio contains:</string>
+    <string name="low_arousal">Low arousal</string>
+    <string name="about_percentage">about %1$d%%</string>
+    <string name="negative_valence">Negative valence</string>
+    <string name="emotion_result">This audio probably contains emotion of %1$s.</string>
+    <string name="analyze_new_audio">Analyze new audio</string>
+
+    <!-- Ошибки ввода данных -->
+    <string name="error_empty_login">Login cannot be empty</string>
+    <string name="error_login_format">Use only latin alphabet and numbers</string>
+    <string name="error_empty_password">Password cannot be empty</string>
+    <string name="error_password_format">Use only latin alphabet and numbers</string>
+    <string name="error_repeat_password">Please repeat your password</string>
+    <string name="error_passwords_not_match">Passwords do not match</string>
+
+    <!-- Эмоции -->
+    <string name="emotion_sadness">sadness</string>
+    <string name="emotion_joy">joy</string>
+    <string name="emotion_fear">fear</string>
+    <string name="emotion_anger">anger</string>
+    <string name="emotion_neutral">neutral</string>
+    <string name="screen_description">Screen Description</string>
+    <string name="main_screen">Main Screen</string>
+    <string name="card_header">Card Header</string>
+    <string name="card_description">Card Description</string>
+    <string name="use_latin_alphabet_and_numbers">Use latin alphabet and numbers</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="first_time_here_sign_in">First time here? Sign in</string>
+    <string name="more">More</string>
+    <string name="drag_your_audio_here">Drag your audio here</string>
+</resources>
