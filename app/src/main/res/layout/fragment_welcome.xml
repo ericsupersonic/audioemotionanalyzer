@@ -7,7 +7,7 @@
     android:background="@color/background"
     tools:context=".ui.welcome.WelcomeFragment">
 
-    <!-- Смайлик -->
+
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
-    <!-- Кнопка Log in -->
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Текст "First time here? Sign in" -->
+
     <TextView
         android:id="@+id/tvSignUp"
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Кликабельный текст "Sign in" -->
+
     <TextView
         android:id="@+id/tvSignUpLink"
         android:layout_width="wrap_content"

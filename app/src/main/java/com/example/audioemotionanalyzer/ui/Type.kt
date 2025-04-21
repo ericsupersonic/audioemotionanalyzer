@@ -9,14 +9,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.audioemotionanalyzer.R
 
-// Создаем семейство шрифтов Roboto
+
 val RobotoFamily = FontFamily(
     Font(R.font.roboto_regular, FontWeight.Normal),
     Font(R.font.roboto_medium, FontWeight.Medium),
     Font(R.font.roboto_bold, FontWeight.Bold)
 )
 
-// Определяем стили текста
+
 val AppTypography = Typography(
     displayLarge = TextStyle(
         fontFamily = RobotoFamily,

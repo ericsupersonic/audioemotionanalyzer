@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,31 +19,31 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.audioemotionanalyzer.R
 import com.example.audioemotionanalyzer.databinding.FragmentAudioUploadBinding
-import java.io.File
 
 class AudioUploadFragment : Fragment() {
 
     private var _binding: FragmentAudioUploadBinding? = null
     private val binding get() = _binding!!
     private var selectedAudioUri: Uri? = null
+    private val TAG = "AudioUploadFragment"
 
-    // Обработчик результата выбора аудио
+
     private val getAudio = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.data?.let { uri ->
                 selectedAudioUri = uri
+                Log.d(TAG, "Audio selected: $uri")
 
-                // Получаем имя файла из URI
+
                 val fileName = getFileName(uri)
 
-                // Обновляем UI с именем файла
+
                 binding.tvDragHere.text = fileName
                 binding.ivAudioIcon.setImageResource(R.drawable.ic_audio_selected)
             }
         }
     }
 
-    // Обработчик запроса разрешений
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         val allGranted = permissions.entries.all { it.value }
         if (allGranted) {
@@ -63,22 +64,21 @@ class AudioUploadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Настройка контейнера для перетаскивания
         binding.dragContainer.setOnClickListener {
             checkPermissionAndOpenPicker()
         }
 
-        // Настройка кнопки Start
+
         binding.btnStart.setOnClickListener {
             if (selectedAudioUri != null) {
-                // Здесь будет логика отправки аудио на сервер
-                // Для демонстрации просто переходим на экран обработки
-                findNavController().navigate(R.id.action_audioUploadFragment_to_progressFragment)
+                Log.d(TAG, "Start button clicked with URI: $selectedAudioUri")
+
+                val bundle = Bundle()
+                bundle.putString("audioUriString", selectedAudioUri.toString())
+                findNavController().navigate(R.id.action_audioUploadFragment_to_progressFragment, bundle)
             } else {
-                Toast.makeText(requireContext(), "Please select an audio file first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.select_audio_first), Toast.LENGTH_SHORT).show()
             }
-
-
         }
     }
 
@@ -105,7 +105,7 @@ class AudioUploadFragment : Fragment() {
         getAudio.launch(intent)
     }
 
-    // Функция для получения имени файла из URI
+
     private fun getFileName(uri: Uri): String {
         val contentResolver = requireContext().contentResolver
         val cursor = contentResolver.query(uri, null, null, null, null)

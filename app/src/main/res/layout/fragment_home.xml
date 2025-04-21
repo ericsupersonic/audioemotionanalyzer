@@ -8,7 +8,6 @@
     android:background="@color/background"
     android:padding="@dimen/spacing_medium">
 
-    <!-- Заголовок экрана -->
     <TextView
         android:id="@+id/text_title"
         style="@style/TextAppearance.App.Headline"
@@ -19,7 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Подзаголовок -->
     <TextView
         android:id="@+id/text_subtitle"
         style="@style/TextAppearance.App.Body1"
@@ -31,7 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_title" />
 
-    <!-- Карточка с информацией -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_info"
         android:layout_width="0dp"
@@ -83,7 +80,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Список элементов (RecyclerView) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_items"
         android:layout_width="0dp"
@@ -97,7 +93,6 @@
         app:layout_constraintTop_toBottomOf="@+id/card_info"
         tools:listitem="@layout/item_list" />
 
-    <!-- Кнопка действия -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_details"
         style="@style/Widget.App.Button"

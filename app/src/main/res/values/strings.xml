@@ -59,4 +59,5 @@
     <string name="first_time_here_sign_in">First time here? Sign in</string>
     <string name="more">More</string>
     <string name="drag_your_audio_here">Drag your audio here</string>
+    <string name="this_audio_probably_contains_emotion_of_happiness">This audio probably contains emotion of happiness.</string>
 </resources>

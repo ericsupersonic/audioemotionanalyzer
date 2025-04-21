@@ -15,7 +15,7 @@ sealed class Result<out T> {
     data class Error(val exception: Exception) : Result<Nothing>()
 }
 
-// Implementation class for AuthRepository
+
 class AuthRepositoryImpl(
     private val authApi: AuthApi,
     private val preferencesManager: PreferencesManager

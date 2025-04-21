@@ -14,19 +14,44 @@ interface ApiService {
     @POST("auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 
+
     @POST("auth/register")
     suspend fun register(@Body registerRequest: RegisterRequest): RegisterResponse
 }
 
-// Data models
+
 data class EmotionResponse(
-    val emotionCode: Int,
+    val emotionCode: Int,            // Код эмоции (0-4)
     val emotionName: String,
-    val confidence: Float
+    val confidence: Float            // Уверенность в определении (0.0-1.0)
 )
 
-data class LoginRequest(val username: String, val password: String)
-data class LoginResponse(val token: String, val userId: String, val username: String)
 
-data class RegisterRequest(val username: String, val password: String)
-data class RegisterResponse(val token: String, val userId: String, val username: String)
+data class LoginRequest(
+    val username: String,
+    val password: String
+)
+
+
+data class LoginResponse(
+    val token: String,               // JWT токен
+    val userId: String,              // ID пользователя
+    val username: String
+)
+
+/**
+ * Запрос на регистрацию
+ */
+data class RegisterRequest(
+    val username: String,
+    val password: String
+)
+
+/**
+ * Ответ на успешную регистрацию
+ */
+data class RegisterResponse(
+    val token: String,               // JWT токен
+    val userId: String,              // ID пользователя
+    val username: String
+)

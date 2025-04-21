@@ -40,12 +40,10 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize repositories
         val preferencesManager = PreferencesManager(requireContext())
         val authApi = AuthApiImpl()
         authRepository = AuthRepositoryImpl(authApi, preferencesManager)
 
-        // Set up registration button
         binding.btnLogin.setOnClickListener {
             val login = binding.etLogin.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -58,31 +56,25 @@ class SignUpFragment : Fragment() {
     }
 
     private fun performRegistration(login: String, password: String) {
-        // Show loading state
         setLoadingState(true)
 
         lifecycleScope.launch {
             try {
                 when (val result = authRepository.register(login, password)) {
                     is Result.Success -> {
-                        // Navigate back to welcome screen after successful registration
                         findNavController().navigate(R.id.action_signUpFragment_to_welcomeFragment)
                         Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
                     }
                     is Result.Error -> {
-                        // Log detailed error information
                         Log.e(TAG, "Registration error: ${result.exception.message}", result.exception)
 
-                        // Show error message
                         showErrorMessage(result.exception.message ?: "Registration failed")
                     }
                 }
             } catch (e: SecurityException) {
-                // Специфическая обработка ошибок безопасности
                 Log.e(TAG, "Security exception during registration", e)
                 showErrorMessage("Security error: ${e.message}")
             } catch (e: Exception) {
-                // Обработка других исключений
                 Log.e(TAG, "Unexpected error during registration", e)
                 showErrorMessage("Registration error: ${e.localizedMessage}")
             } finally {
@@ -103,7 +95,6 @@ class SignUpFragment : Fragment() {
     private fun validateInput(login: String, password: String, repeatPassword: String): Boolean {
         var isValid = true
 
-        // Validate login
         if (login.isEmpty()) {
             binding.tilLogin.error = getString(R.string.error_empty_login)
             isValid = false
@@ -114,7 +105,6 @@ class SignUpFragment : Fragment() {
             binding.tilLogin.error = null
         }
 
-        // Validate password
         if (password.isEmpty()) {
             binding.tilPassword.error = getString(R.string.error_empty_password)
             isValid = false
@@ -125,7 +115,6 @@ class SignUpFragment : Fragment() {
             binding.tilPassword.error = null
         }
 
-        // Validate password repeat
         if (repeatPassword.isEmpty()) {
             binding.tilRepeatPassword.error = getString(R.string.error_repeat_password)
             isValid = false

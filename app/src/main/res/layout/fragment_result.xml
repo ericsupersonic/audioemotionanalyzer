@@ -7,7 +7,6 @@
     android:background="@color/background"
     tools:context=".ui.result.ResultFragment">
 
-    <!-- Результат анализа -->
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="0dp"
@@ -16,7 +15,7 @@
         android:layout_marginTop="80dp"
         android:layout_marginEnd="40dp"
         android:gravity="center"
-        android:text="This audio probably contains emotion of happiness."
+        android:text="@string/this_audio_probably_contains_emotion_of_happiness"
         android:textColor="@color/primary"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -24,7 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Смайлик в центре -->
     <ImageView
         android:id="@+id/ivEmotionIcon"
         android:layout_width="120dp"
@@ -36,7 +34,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvResult"
         app:tint="@color/primary" />
 
-    <!-- Кнопка "Analyze new audio" -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAnalyzeNew"
         android:layout_width="0dp"
@@ -45,7 +42,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="80dp"
         android:backgroundTint="@color/primary"
-        android:text="Analyze new audio"
+        android:text="@string/analyze_new_audio"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:cornerRadius="28dp"

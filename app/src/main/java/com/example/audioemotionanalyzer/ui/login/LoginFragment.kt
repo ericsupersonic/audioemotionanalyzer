@@ -37,12 +37,12 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize repositories
+
         val preferencesManager = PreferencesManager(requireContext())
         val authApi = AuthApiImpl()
         authRepository = AuthRepositoryImpl(authApi, preferencesManager)
 
-        // Set up login button click listener
+
         binding.btnLogin.setOnClickListener {
             val login = binding.etLogin.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -54,18 +54,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun performLogin(login: String, password: String) {
-        // Show loading state
+
         setLoadingState(true)
 
         lifecycleScope.launch {
             try {
                 when (val result = authRepository.login(login, password)) {
                     is Result.Success -> {
-                        // Navigate to audio upload screen
+
                         findNavController().navigate(R.id.action_loginFragment_to_audioUploadFragment)
                     }
                     is Result.Error -> {
-                        // Determine error type
                         val errorMessage = when (val exception = result.exception) {
                             is IOException -> "Network error: Check your connection"
                             is HttpException -> "Server error: ${exception.code()}"
@@ -87,8 +86,6 @@ class LoginFragment : Fragment() {
 
     private fun setLoadingState(isLoading: Boolean) {
         binding.btnLogin.isEnabled = !isLoading
-        // If you have a progress indicator, show/hide it here
-        // binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showErrorMessage(message: String) {
@@ -98,7 +95,7 @@ class LoginFragment : Fragment() {
     private fun validateInput(login: String, password: String): Boolean {
         var isValid = true
 
-        // Validate login
+        // Валидация логина
         if (login.isEmpty()) {
             binding.tilLogin.error = getString(R.string.error_empty_login)
             isValid = false
@@ -109,7 +106,7 @@ class LoginFragment : Fragment() {
             binding.tilLogin.error = null
         }
 
-        // Validate password
+        // Валидация пароля
         if (password.isEmpty()) {
             binding.tilPassword.error = getString(R.string.error_empty_password)
             isValid = false

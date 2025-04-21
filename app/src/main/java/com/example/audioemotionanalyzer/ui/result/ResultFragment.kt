@@ -15,7 +15,6 @@ class ResultFragment : Fragment() {
     private var _binding: FragmentResultBinding? = null
     private val binding get() = _binding!!
 
-    // Аргументы, получаемые от предыдущего фрагмента (можно использовать Safe Args)
     private val args: ResultFragmentArgs by navArgs()
 
     // Маппинг эмоций
@@ -45,18 +44,17 @@ class ResultFragment : Fragment() {
         // Устанавливаем текст с результатом
         binding.tvResult.text = "This audio probably contains emotion of ${emotion}."
 
-        // Устанавливаем соответствующую иконку
         val iconResId = getEmotionIconResource(emotionCode)
         binding.ivEmotionIcon.setImageResource(iconResId)
 
-        // Настройка кнопки для анализа нового аудио
+
         binding.btnAnalyzeNew.setOnClickListener {
-            // Возвращаемся на экран загрузки аудио
+
             findNavController().navigate(R.id.action_resultFragment_to_audioUploadFragment)
         }
     }
 
-    // Функция для получения ID ресурса иконки в зависимости от эмоции
+
     private fun getEmotionIconResource(emotionCode: Int): Int {
         return when (emotionCode) {
             0 -> R.drawable.ic_neutral // Нейтральный
