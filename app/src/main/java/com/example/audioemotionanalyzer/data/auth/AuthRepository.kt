@@ -15,46 +15,7 @@ sealed class Result<out T> {
     data class Error(val exception: Exception) : Result<Nothing>()
 }
 
-// Create the PreferencesManager class
-class PreferencesManager(private val context: android.content.Context) {
-    private val sharedPreferences = context.getSharedPreferences("auth_prefs", android.content.Context.MODE_PRIVATE)
-
-    fun saveAuthToken(token: String) {
-        sharedPreferences.edit().putString("token", token).apply()
-    }
-
-    fun getAuthToken(): String? {
-        return sharedPreferences.getString("token", null)
-    }
-
-    fun saveUser(user: User) {
-        sharedPreferences.edit()
-            .putString("user_id", user.id)
-            .putString("username", user.username)
-            .putString("token", user.token)
-            .apply()
-    }
-
-    fun getUser(): User? {
-        val id = sharedPreferences.getString("user_id", null) ?: return null
-        val username = sharedPreferences.getString("username", null) ?: return null
-        val token = sharedPreferences.getString("token", null) ?: return null
-
-        return User(id, username, token)
-    }
-
-    fun clearAuth() {
-        sharedPreferences.edit().clear().apply()
-    }
-}
-
-// Create the AuthApi interface
-interface AuthApi {
-    suspend fun login(username: String, password: String): User
-    suspend fun register(username: String, password: String): User
-}
-
-// Implementation of AuthRepository
+// Implementation class for AuthRepository
 class AuthRepositoryImpl(
     private val authApi: AuthApi,
     private val preferencesManager: PreferencesManager

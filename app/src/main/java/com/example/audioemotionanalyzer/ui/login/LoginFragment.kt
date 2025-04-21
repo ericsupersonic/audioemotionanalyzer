@@ -6,14 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.audioemotionanalyzer.R
+import com.example.audioemotionanalyzer.data.auth.AuthApiImpl
+import com.example.audioemotionanalyzer.data.auth.AuthRepositoryImpl
+import com.example.audioemotionanalyzer.data.auth.PreferencesManager
+import com.example.audioemotionanalyzer.data.auth.Result
 import com.example.audioemotionanalyzer.databinding.FragmentLoginBinding
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var authRepository: AuthRepositoryImpl
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,39 +34,78 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Настройка кнопки Log in
+        // Initialize repositories
+        val preferencesManager = PreferencesManager(requireContext())
+        val authApi = AuthApiImpl()
+        authRepository = AuthRepositoryImpl(authApi, preferencesManager)
+
+        // Set up login button click listener
         binding.btnLogin.setOnClickListener {
             val login = binding.etLogin.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 
             if (validateInput(login, password)) {
-                // Здесь будет логика аутентификации через API
-                // Для демонстрации просто переходим на экран загрузки аудио
-                findNavController().navigate(R.id.action_loginFragment_to_audioUploadFragment)
+                performLogin(login, password)
             }
         }
+    }
+
+    private fun performLogin(login: String, password: String) {
+        // Show loading state
+        setLoadingState(true)
+
+        lifecycleScope.launch {
+            try {
+                when (val result = authRepository.login(login, password)) {
+                    is Result.Success -> {
+                        // Navigate to audio upload screen
+                        findNavController().navigate(R.id.action_loginFragment_to_audioUploadFragment)
+                    }
+                    is Result.Error -> {
+                        // Show error message
+                        showErrorMessage(result.exception.message ?: "Unknown error occurred")
+                    }
+                }
+            } catch (e: Exception) {
+                showErrorMessage("Network error: ${e.localizedMessage}")
+            } finally {
+                // Hide loading state
+                setLoadingState(false)
+            }
+        }
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        binding.btnLogin.isEnabled = !isLoading
+
+        // If you have a progress indicator in your login screen, you can show/hide it here
+        // binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showErrorMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     private fun validateInput(login: String, password: String): Boolean {
         var isValid = true
 
-        // Проверка логина
+        // Validate login
         if (login.isEmpty()) {
-            binding.tilLogin.error = "Login cannot be empty"
+            binding.tilLogin.error = getString(R.string.error_empty_login)
             isValid = false
         } else if (!login.matches(Regex("^[a-zA-Z0-9]+$"))) {
-            binding.tilLogin.error = "Use only latin alphabet and numbers"
+            binding.tilLogin.error = getString(R.string.error_login_format)
             isValid = false
         } else {
             binding.tilLogin.error = null
         }
 
-        // Проверка пароля
+        // Validate password
         if (password.isEmpty()) {
-            binding.tilPassword.error = "Password cannot be empty"
+            binding.tilPassword.error = getString(R.string.error_empty_password)
             isValid = false
         } else if (!password.matches(Regex("^[a-zA-Z0-9]+$"))) {
-            binding.tilPassword.error = "Use only latin alphabet and numbers"
+            binding.tilPassword.error = getString(R.string.error_password_format)
             isValid = false
         } else {
             binding.tilPassword.error = null
