@@ -41,9 +41,11 @@ class ProgressFragment : Fragment() {
             // В реальном приложении здесь будет результат от API
             val emotionCode = Random.nextInt(0, 5) // От 0 до 4 включительно
 
-            // Переход на экран результатов с передачей emotionCode
-            val action = ProgressFragmentDirections.actionProgressFragmentToResultFragment(emotionCode)
-            findNavController().navigate(action)
+            // Replace the ProgressFragmentDirections with a Bundle
+            val bundle = Bundle().apply {
+                putInt("emotionCode", emotionCode)
+            }
+            findNavController().navigate(R.id.action_progressFragment_to_resultFragment, bundle)
         }, 3000)
     }
 
