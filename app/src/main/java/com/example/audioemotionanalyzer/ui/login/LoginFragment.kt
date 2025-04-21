@@ -1,6 +1,7 @@
 package com.example.audioemotionanalyzer.ui.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.example.audioemotionanalyzer.data.auth.PreferencesManager
 import com.example.audioemotionanalyzer.data.auth.Result
 import com.example.audioemotionanalyzer.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 class LoginFragment : Fragment() {
 
@@ -62,14 +65,21 @@ class LoginFragment : Fragment() {
                         findNavController().navigate(R.id.action_loginFragment_to_audioUploadFragment)
                     }
                     is Result.Error -> {
-                        // Show error message
-                        showErrorMessage(result.exception.message ?: "Unknown error occurred")
+                        // Determine error type
+                        val errorMessage = when (val exception = result.exception) {
+                            is IOException -> "Network error: Check your connection"
+                            is HttpException -> "Server error: ${exception.code()}"
+                            else -> "Unknown error: ${exception.localizedMessage}"
+                        }
+                        showErrorMessage(errorMessage)
                     }
+
                 }
             } catch (e: Exception) {
-                showErrorMessage("Network error: ${e.localizedMessage}")
+                showErrorMessage("Connection failed: ${e.localizedMessage}")
+                // Log the full exception for debugging
+                Log.e("LoginFragment", "Login error", e)
             } finally {
-                // Hide loading state
                 setLoadingState(false)
             }
         }
@@ -77,8 +87,7 @@ class LoginFragment : Fragment() {
 
     private fun setLoadingState(isLoading: Boolean) {
         binding.btnLogin.isEnabled = !isLoading
-
-        // If you have a progress indicator in your login screen, you can show/hide it here
+        // If you have a progress indicator, show/hide it here
         // binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 

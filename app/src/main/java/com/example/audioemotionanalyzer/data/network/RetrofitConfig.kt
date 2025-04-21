@@ -9,11 +9,11 @@ import java.util.concurrent.TimeUnit
 object RetrofitConfig {
     // Use 10.0.2.2 to connect to localhost when running in emulator
     // Use your computer's IP when testing on a physical device
-    private const val BASE_URL = "http://10.0.2.2:8000/"  // Change as needed
+    private const val BASE_URL = "http://192.168.1.77:8000"  // Change as needed
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.BODY // Подробное логирование
         })
         .connectTimeout(60, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
